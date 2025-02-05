@@ -1,0 +1,17 @@
+{
+  "name": "shellmenu",
+  "version": "1.0.0",
+  "description": "create shell command line questions, their value parsers, and it's manager easily with predefined questions and answers, or question definition and finally run a function with the function having access to the questions and values of the menu",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "mocha": "^11.1.0",
+    "sinon": "^19.0.2"
+  }
+}
