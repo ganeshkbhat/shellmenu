@@ -1,5 +1,5 @@
 
-const readline = require('readline');
+// console.log(readline)
 
 async function askQuestionsRecursively(questions, finalFunction) {
   const answers = {};
@@ -10,7 +10,7 @@ async function askQuestionsRecursively(questions, finalFunction) {
     }
 
     const question = questions[index];
-    const readline = readline.createInterface({
+    const readline = require('readline').createInterface({
       input: process.stdin,
       output: process.stdout,
     });
@@ -41,12 +41,12 @@ async function askNestedQuestionsRecursively(questions, finalFunction) {
     const followUpQuestions = questionData.followUpQuestions || []; // Questions based on answer
 
     return new Promise((resolve) => {
-      const rl = readline.createInterface({
+      const rl = require('readline').createInterface({
         input: process.stdin,
         output: process.stdout,
       });
 
-      console.log(questionText);
+      console.log(JSON.stringify(questionText));
 
       if (options && options.length > 0) {
         options.forEach((option, i) => {
@@ -89,4 +89,5 @@ async function askNestedQuestionsRecursively(questions, finalFunction) {
 }
 
 module.exports = { askQuestionsRecursively, askNestedQuestionsRecursively };
+
 
