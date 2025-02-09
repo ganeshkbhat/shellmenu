@@ -1,56 +1,70 @@
 
-const { askQuestionsRecursively, askNestedQuestionsRecursively } = require("../index");
-// Example usage:
+const { askQuestionsRecursively, askFollowupQuestionRecursively } = require("../index");
+
 
 const questions = [
     {
-        question: "What is your favorite programming language?",
-        options: ["JavaScript", "Python", "Java", "C++"],
-        followUpQuestions: {
-            "JavaScript": [
-                {
-                    question: "Which JavaScript framework do you prefer?",
-                    options: ["React", "Angular", "Vue"],
-                },
-            ],
-            "Python": [
-                {
-                    question: "Which Python framework do you prefer?",
-                    options: ["Django", "Flask"],
-                },
-            ],
-        },
+        "question": "What is your name?",
     },
     {
-        question: "What is your experience level?",
-        options: ["Beginner", "Intermediate", "Expert"],
+        "question": "What is your age?",
     },
     {
-        question: "What is your name?", // Free-text question
+        "question": "What is your favorite color?",
+        "options": ["Red", "Green", "Blue", "Yellow"],
+        "follow_up": {
+            "Blue": [
+                { "question": "What shade of blue?", "options": ["Sky blue", "Navy blue", "Teal"] },
+            ],
+            "Red": [
+                { "question": "Do you prefer bright or dark red?", "options": ["Bright", "Dark"] }
+            ]
+        }
+    },
+    {
+        "question": "Do you like coding?",
+        "options": ["Yes", "No"],
+        "follow_up": {
+            "Yes": [
+                { "question": "What is your favorite programming language?", "options": ["Python", "Java", "JavaScript", "C++"] }
+            ],
+            "No": [
+                { "question": "What do you like to do instead?", "options": ["Reading", "Sports", "Music"] }
+            ]
+        }
     },
 ];
 
-async function processAnswers(answers) {
-    console.log("\nAll answers received:");
-    console.log(answers);
 
-    // Process the answers here
-    const language = answers["What is your favorite programming language?"];
-    const experience = answers["What is your experience level?"];
-    const name = answers["What is your name?"];
-    const framework = answers["Which JavaScript framework do you prefer?"] || answers["Which Python framework do you prefer?"] || "None"; // Handle cases where no framework is selected
+// const questions = [
+//     {
+//         question: "What is your favorite programming language?",
+//         options: ["JavaScript", "Python", "Java", "C++"],
+//         followUpQuestions: {
+//             "JavaScript": [
+//                 {
+//                     question: "Which JavaScript framework do you prefer?",
+//                     options: ["React", "Angular", "Vue"],
+//                 },
+//             ],
+//             "Python": [
+//                 {
+//                     question: "Which Python framework do you prefer?",
+//                     options: ["Django", "Flask"],
+//                 },
+//             ],
+//         },
+//     },
+//     {
+//         question: "What is your experience level?",
+//         options: ["Beginner", "Intermediate", "Expert"],
+//     },
+//     {
+//         question: "What is your name?", // Free-text question
+//     },
+// ];
 
-    console.log(`\nHello ${name}! You prefer ${language} (${framework}) and are an ${experience}.`);
-}
 
-
-async function main() {
-    try {
-        await askNestedQuestionsRecursively(questions, processAnswers);
-        console.log("Finished processing.");
-    } catch (error) {
-        console.error("An error occurred:", error);
-    }
-}
-
-main();
+askFollowupQuestionRecursively(questions).then((answers) => {
+    console.log(answers)
+})
