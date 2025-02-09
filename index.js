@@ -94,5 +94,15 @@ function askFollowupQuestionRecursively(questions, printAnswer = true) {
   });
 }
 
-module.exports = { askQuestionsRecursively, askFollowupQuestionRecursively };
+function processAnswersSingleLevel(answers) {
+  let arr = []
+  questions.forEach(questionData => {
+    const questionText = questionData;
+    const answer = answers[questionText];
+    arr.push({ [questionText]: answer })
+  })
+  console.log(arr);
+}
+
+module.exports = { askQuestionsRecursively, askFollowupQuestionRecursively, processAnswersSingleLevel };
 

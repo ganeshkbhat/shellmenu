@@ -23,7 +23,7 @@ const questions = [
 // 
 // }
 
-function processAnswers(answers) {
+module.exports.processAnswers = function processAnswers(answers) {
   let arr = []
   questions.forEach(questionData => {
     const questionText = questionData;
