@@ -23,7 +23,7 @@ const questions = [
 // 
 // }
 
-module.exports.processAnswers = function processAnswers(answers) {
+function processAnswers(answers) {
   let arr = []
   questions.forEach(questionData => {
     const questionText = questionData;
@@ -32,6 +32,8 @@ module.exports.processAnswers = function processAnswers(answers) {
   })
   console.log(arr);
 }
+
+module.exports.processAnswers = processAnswers;
 
 async function main() {
   try {
