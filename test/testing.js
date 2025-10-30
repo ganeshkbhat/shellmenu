@@ -149,5 +149,4 @@ describe('processAnswersSingleLevel', () => {
         assert(!consoleLogSpy.calledWith('Question: "What is your age?"')); // Should not be called
     });
 
-
 });

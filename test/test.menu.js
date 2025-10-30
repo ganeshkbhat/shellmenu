@@ -1,6 +1,6 @@
 const assert = require('chai').assert;
 const sinon = require('sinon');
-const { askQuestionsRecursively, askNestedQuestionsRecursively, processAnswersSingleLevel } = require('../index'); // Assuming your function is in ask_questions.js
+const { askQuestionsRecursively, askFollowupQuestionRecursively, processAnswersSingleLevel } = require('../index'); // Assuming your function is in ask_questions.js
 
 // const questions = [
 //     {
@@ -36,7 +36,7 @@ const { askQuestionsRecursively, askNestedQuestionsRecursively, processAnswersSi
 // ];
 
 
-describe('askNestedQuestionsRecursively', () => {
+describe('askFollowupQuestionRecursively', () => {
     let readlineInterfaceStub;
 
     beforeEach(() => {
@@ -62,7 +62,7 @@ describe('askNestedQuestionsRecursively', () => {
             callback('30');
         });
 
-        await askNestedQuestionsRecursively(questions, finalFunction);
+        await askFollowupQuestionRecursively(questions, finalFunction);
 
         assert(finalFunction.calledOnce);
         assert.deepEqual(finalFunction.firstCall.args[0], { 'Name?': 'John', 'Age?': '30' });
@@ -73,14 +73,14 @@ describe('askNestedQuestionsRecursively', () => {
         const finalFunction = sinon.spy();
 
         // Simulate asynchronous input (using Promises)
-        readlineInterfaceStub.question.onCall(0).callsFake((questions, callback) => {
+        readlineInterfaceStub.question.onCall(0).callsFake(function (questions, callback) {
             setTimeout(() => callback('Alice'), 50); // Simulate delay
         });
-        readlineInterfaceStub.question.onCall(1).callsFake((questions, callback) => {
+        readlineInterfaceStub.question.onCall(1).callsFake(function (questions, callback) {
             setTimeout(() => callback('25'), 50); // Simulate delay
         });
 
-        await askNestedQuestionsRecursively(questions, finalFunction);
+        await askFollowupQuestionRecursively(questions, finalFunction);
 
         assert(finalFunction.calledOnce);
         assert.deepEqual(finalFunction.firstCall.args[0], { 'Name?': 'Alice', 'Age?': '25' });
@@ -90,7 +90,7 @@ describe('askNestedQuestionsRecursively', () => {
         const questions = [];
         const finalFunction = sinon.spy();
 
-        await askNestedQuestionsRecursively(questions, finalFunction);
+        await askFollowupQuestionRecursively(questions, finalFunction);
 
         assert(finalFunction.calledOnce);
         assert.deepEqual(finalFunction.firstCall.args[0], {}); // Empty answers object
@@ -100,11 +100,11 @@ describe('askNestedQuestionsRecursively', () => {
         const questions = ['Favorite Color?'];
         const finalFunction = sinon.spy();
 
-        readlineInterfaceStub.question.callsFake((questions, callback) => {
+        readlineInterfaceStub.question.callsFake(function (questions, callback) {
             callback('Blue');
-        });
+        }.bind(this));
 
-        await askNestedQuestionsRecursively(questions, finalFunction);
+        await askFollowupQuestionRecursively(questions, finalFunction);
 
         assert(finalFunction.calledOnce);
         assert.deepEqual(finalFunction.firstCall.args[0], { 'Favorite Color?': 'Blue' });
@@ -122,7 +122,7 @@ describe('askNestedQuestionsRecursively', () => {
         readlineInterfaceStub.throws(new Error("Readline error"));
 
         try {
-            await askNestedQuestionsRecursively(questions, finalFunction);
+            await askFollowupQuestionRecursively(questions, finalFunction);
             assert.fail("Should have thrown an error"); // Test should fail if no error is thrown
         } catch (error) {
             assert.equal(error.message, "Readline error");
